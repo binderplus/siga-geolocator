@@ -1,0 +1,28 @@
+{
+	"name": "map-locator",
+	"version": "0.0.1",
+	"author": "Iván Todorovich <ivantodorovich@gmail.com>",
+	"description": "Locates contacts from a Google DB, and displays usefull information on them.",
+	"repository": {
+		"type": "git",
+		"url":	"https://github.com/ivantodorovich/map-locator.git"
+	},
+	
+	"dependencies":	{
+		"node-sqlite-purejs":	"*",
+		"tedious":						"^0.2"
+	},
+
+	"main": "app/index.html",
+	"window": {
+	    "title":      "Geolocalizacion",
+	    "frame":      true,
+			"toolbar":    false,
+			"width":      800,
+			"height":	  	600,
+	    "min_width":  800,
+	    "min_height": 600,
+	    "resizable":  true,
+	    "icon":       "/icon.png"
+	}
+}

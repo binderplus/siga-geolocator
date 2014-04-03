@@ -10,7 +10,7 @@
 	
 	"dependencies":	{
 		"node-sqlite-purejs":	"*",
-		"tedious":						"^0.2"
+		"tedious":						"*"
 	},
 
 	"main": "app/index.html",

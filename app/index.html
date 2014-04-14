@@ -8,16 +8,60 @@
 			margin:		0;
 			padding:	0;
 		}
+
+		.controls {
+			margin-top: 16px;
+			border: 1px solid transparent;
+			border-radius: 2px 0 0 2px;
+			box-sizing: border-box;
+			height: 32px;
+			outline: none;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+		}
+
+		#pac-input {
+			background-color: #fff;
+			padding: 0 11px 0 13px;
+			width: 400px;
+			font-family: Roboto;
+			font-size: 15px;
+			font-weight: 300;
+			text-overflow: ellipsis;
+		}
+
+		#pac-input:focus {
+			border-color: #4d90fe;
+			margin-left: -1px;
+			padding-left: 14px;  /* Regular padding-left + 1. */
+			width: 401px;
+		}
+
+		.pac-container {
+			font-family: Roboto;
+		}
+
+		#type-selector {
+			color: #fff;
+			background-color: #4d90fe;
+			padding: 5px 11px 0px 11px;
+		}
+
+		#type-selector label {
+			font-family: Roboto;
+			font-size: 13px;
+			font-weight: 300;
+		}
 	</style>
 	<!-- Remote Dependencies -->
 	<script src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&key=AIzaSyA7_WEl--H2dsb-0PXwhEDmI2m-vVJty_A"></script>
 	<!-- Local Dependencies -->
-	<script type="text/javascript" src="async.js"></script>
-	<script type="text/javascript" src="gmap.js"></script>
-	<script type="text/javascript" src="nw.config.js"></script>
-	<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript" src="lib/async.js"></script>
+	<script type="text/javascript" src="js/nw.boot.js"></script>
+	<script type="text/javascript" src="js/gmap.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
 </head>
 <body>
+	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
 	<div id="googleMap"></div>
 </body>
 </html>

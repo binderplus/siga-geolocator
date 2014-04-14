@@ -1,9 +1,52 @@
 var GMap = function GMap ( element, config ) {
+	var t = this;
+
 	// Initialize Google Map
-	this.google = google;
-	this.map = new this.google.maps.Map(element, config);
+	t.google = google;
+	t.map = new this.google.maps.Map(element, config);
 	// Data array
-	this.data = [];
+	t.data = [];
+
+	// Google Map Search Box
+	var markers = [];
+	var input = (document.getElementById('pac-input'));
+  	this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  	var searchBox = new google.maps.places.SearchBox(input);
+	google.maps.event.addListener(searchBox, 'places_changed', function() {
+		var places = searchBox.getPlaces();
+		for (var i = 0, marker; marker = markers[i]; i++) {
+			marker.setMap(null);
+		}
+
+		// For each place, get the icon, place name, and location.
+		markers = [];
+		var bounds = new google.maps.LatLngBounds();
+		for (var i = 0, place; place = places[i]; i++) {
+			var image = {
+				url: place.icon,
+				size: new google.maps.Size(71, 71),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(17, 34),
+				scaledSize: new google.maps.Size(25, 25)
+			};
+			// Create a marker for each place.
+			var marker = new google.maps.Marker({
+				map: t.map,
+				icon: image,
+				title: place.name,
+				position: place.geometry.location
+			});
+			markers.push(marker);
+			bounds.extend(place.geometry.location);
+		}
+		t.map.fitBounds(bounds);
+	});
+	// Bias the SearchBox results towards places that are within the bounds of the
+	// current map's viewport.
+	google.maps.event.addListener(t.map, 'bounds_changed', function() {
+		var bounds = t.map.getBounds();
+		searchBox.setBounds(bounds);
+	});
 }
 
 GMap.prototype.setData = function setData ( data ) {
@@ -16,7 +59,6 @@ GMap.prototype.addData = function addData ( data ) {
 	timeStart = new Date();
 	// For each data item, in series.
 	async.eachSeries(data, function (d, callback) {
-		console.log(d.name, d.latlng)
 		// unknown latlng. we shuold lookup
 		if (!d.latlng || !d.latlng.lat || !d.latlng.lng) {
 			_this_.geocodeLookup(d, function(error) {
@@ -53,9 +95,11 @@ GMap.prototype.addMarker = function(d) {
 	
 	// Define an icon
 	if (!d.active) {
+		icon = 'http://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png';
+	} else if (!d.lastSale || (new Date() - d.lastSale) > 1000*60*60*24*365) {
 		icon = 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png';
-	} else if (!d.lastSale || (new Date() - d.lastSale) > 24*60*60*1000*365) {
-		icon = 'http://www.google.com/intl/en_us/mapfiles/ms/micons/ltblue-dot.png';
+	} else if (!d.lastSale || (new Date() - d.lastSale) > 1000*60*60*24*90) {
+		icon = 'http://www.google.com/intl/en_us/mapfiles/ms/micons/ltblue-dot.png';		
 	} else {
 		icon = 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png';
 	}
@@ -70,13 +114,14 @@ GMap.prototype.addMarker = function(d) {
 	// Set up infowindow
 	d.infowindow = new _this_.google.maps.InfoWindow({
 		content: 
-			"<p><b>"+d.name +"</b></p>"+
-			"<p>"+d.address+"<br />"+d.city+"<br />"+d.state+"</p>"+
-			"<p>Teléfono: "+d.phone+"</p>"+
-			"<p>Vendedor: "+d.salesman+"</p>"+
-			"<p>Última Compra: "+(d.lastSale ? (d.lastSale.getDate() + "/" + (d.lastSale.getMonth() + 1) + "/" + d.lastSale.getFullYear()) : 'N/A')+"</p>"
-		,
-		//disableAutoPan: true	
+			"<div><b>"+d.name +"</b></div>"+
+			"<div>"+d.address+"</div>"+
+			"<div>"+d.city+"</div>"+
+			"<div>"+d.state+"</div>"+
+			"<div><b>Teléfono: </b>"+d.phone+"</div>"+
+			"<div><b>Vendedor: </b>"+d.salesman+"</div>"+
+			"<div><b>Última Compra: </b>"+(d.lastSale ? (d.lastSale.getDate() + "/" + (d.lastSale.getMonth() + 1) + "/" + d.lastSale.getFullYear()) : 'N/A')+"</div>"+
+			"<div><b>Ventas último año: </b>$ "+(d.lastYearWorth?d.lastYearWorth:0)+"</div>"
 	});
 	
 	// Hookup 

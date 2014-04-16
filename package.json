@@ -9,7 +9,7 @@
 	},
 
 	"dependencies":	{
-		"sqlite3": "~0.2.2",
+		"sqlite3": "~2.2.1",
 		"tedious": "*"
 	},
 	"devDependencies": {

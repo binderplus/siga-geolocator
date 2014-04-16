@@ -27,10 +27,14 @@ window.addEventListener("drop",			preventDefault, false);
 // Prevent dragging files outside the window
 window.addEventListener("dragstart",	preventDefault, false);
 
-
-// Show 404 page on uncaughtException
-/*
+// Catch uncaught NodeJS exceptions
 process.on('uncaughtException', function(err) {
-  if (console) console.error(err, err.stack)
+	if (console) 	console.error(err, err.stack)
+	if (alert)	alert(err + '\r\n' + err.stack)
 });
-*/
+
+// Catch uncaught DOM exceptions
+window.onerror = function (message, url, line) {
+	if (console)	console.error('Uncaught Exception: ', message, url + ':' + line)
+	if (alert)		alert('Uncaught Exception: ' +'\r\n' + message + '\r\n' + url + ':' + line)
+}

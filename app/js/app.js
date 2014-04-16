@@ -24,7 +24,7 @@ if (!fs.existsSync(paths.config)) {
 	console.warn('No existe config.json -- Usando default, configurar!')
 	fs.writeFileSync(paths.config, JSON.stringify(defaults))
 } else {
-	config = rJSON.parse(fs.readFileSync(paths.config))
+	config = JSON.parse(fs.readFileSync(paths.config))
 }
 
 google.maps.event.addDomListener(window, 'load', function() {
@@ -151,11 +151,13 @@ google.maps.event.addDomListener(window, 'load', function() {
 									, "'" + d.latlng.lng.toString() + "'"
 								].join(', ') + ')', function(err) {
 									if (err) { cb(err); return; }
-									cb();
+									window.map.addMarker(d)
+									cb()
 								})
 							})
 						} else {
 							console.log('CACHED: ' + d.name + '(' + d.address + ', ' + d.city + ')')
+							window.map.addMarker(d)
 							cb();
 						}
 					})
@@ -168,7 +170,7 @@ google.maps.event.addDomListener(window, 'load', function() {
 			if (err) throw err;
 			sqlitedb.close();
 			window.data = data;
-			window.map.setData(data);
+			//window.map.setData(data);
 		})
 	})
 });

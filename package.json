@@ -9,8 +9,15 @@
 	},
 
 	"dependencies":	{
-		"sqlite3":		"~0.2.1",
-		"tedious":		"*"
+		"sqlite3": "~0.2.2",
+		"tedious": "*"
+	},
+	"devDependencies": {
+		"node-webkit-builder": "*",
+		"nodewebkit": "0.8.5"
+	},
+	"scripts": {
+		"build": "node build.js"
 	},
 
 	"main": "app/index.html",

@@ -1,4 +1,31 @@
-var config = require("./config.json")
+var fs = require('fs'),
+	path = require('path')
+
+var defaults = {
+	"sqlConnection": {
+		"userName": "ReadOnly",
+		"password":	"readonly",
+		"server":	"localhost",
+		"options":	{
+			"instanceName":	"SQLExpress",
+			"databaseName":	"SIGA"
+		}
+	}
+}
+
+var paths = {
+	config: path.dirname(process.execPath)+'/config.json',
+	sqlite: path.dirname(process.execPath)+'/cache.sqlite'
+}
+
+// Leer configs
+var config = defaults;
+if (!fs.existsSync(paths.config)) {
+	console.warn('No existe config.json -- Usando default, configurar!')
+	fs.writeFileSync(paths.config, JSON.stringify(defaults))
+} else {
+	config = rJSON.parse(fs.readFileSync(paths.config))
+}
 
 google.maps.event.addDomListener(window, 'load', function() {
 
@@ -12,7 +39,7 @@ google.maps.event.addDomListener(window, 'load', function() {
 	function initSQLITE(callback) {
 		// Initialize SQLITE
 		var sqlite3 = require('sqlite3')
-		var db = new sqlite3.Database('db.sqlite');
+		var db = new sqlite3.Database(paths.sqlite);
 		db.serialize(function() {
 			db.run(
 				'CREATE TABLE IF NOT EXISTS customers ('+

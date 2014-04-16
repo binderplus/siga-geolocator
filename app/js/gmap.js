@@ -121,7 +121,7 @@ GMap.prototype.addMarker = function(d) {
 			"<div><b>Teléfono: </b>"+d.phone+"</div>"+
 			"<div><b>Vendedor: </b>"+d.salesman+"</div>"+
 			"<div><b>Última Compra: </b>"+(d.lastSale ? (d.lastSale.getDate() + "/" + (d.lastSale.getMonth() + 1) + "/" + d.lastSale.getFullYear()) : 'N/A')+"</div>"+
-			"<div><b>Ventas último año: </b>$ "+(d.lastYearWorth?d.lastYearWorth:0)+"</div>"
+			"<div><b>Ventas últimos 12 meses: </b>$ "+(d.lastYearWorth?d.lastYearWorth:0)+"</div>"
 	});
 	
 	// Hookup 

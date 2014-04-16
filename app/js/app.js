@@ -1,3 +1,5 @@
+var config = require("./config.json")
+
 google.maps.event.addDomListener(window, 'load', function() {
 
 	window.map = new GMap(document.getElementById("googleMap"), {
@@ -32,7 +34,7 @@ google.maps.event.addDomListener(window, 'load', function() {
 	function initSQLEXPRESS(callback) {
 		// Initialize SQLEXPRESS
 		try {
-			var connConfig = require("./config.json").sqlConnection;
+			var connConfig = config.sqlConnection;
 			var conn = new tedious.Connection(connConfig)
 			conn.on('connect', function(err) {
 				callback(err, conn);

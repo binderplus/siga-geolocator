@@ -17,6 +17,7 @@
 		"nodewebkit": "0.8.5"
 	},
 	"scripts": {
+		"install":	"cp -p -R deps/sqlite3/* node_modules/sqlite3/lib/binding/",
 		"start": "nodewebkit . -- --debug",
 		"build": "node build.js"
 	},

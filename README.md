@@ -1,16 +1,18 @@
-# Google Contact Locator
+SIGA Geolocator
+===============
 
-Locates contacts from a local DB on Google Maps, and displays usefull information on them.
+Locates customers on Google Maps, and show usefull information.
 
-Designed specifically to locate customers on a map, obtained from a specific data source. (Not provided, obviously)
+It's a WIP, for private use only. It may not even work for you.
 
-### Install
-`npm install`
+#### Install
+`npm install binderplus/siga-geolocator`
 
-### Run
+#### Run
 `npm start`
 
-### Build
+#### Build
 `npm run build`
 
-*Needs to have been installed. Will fail otherwise.*
+#### Comments
+Not related to SIGA or Sinergiass in any way.
